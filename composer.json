@@ -1,0 +1,40 @@
+{
+	"name": "kuriousagency/layout-select",
+	"description": "select a layout",
+	"type": "craft-plugin",
+	"version": "0.0.1",
+	"keywords": [
+		"craft",
+		"cms",
+		"craftcms",
+		"craft-plugin",
+		"layout select"
+	],
+	"support": {
+		"docs": "https://github.com/kuriousagency/layout-select/blob/master/README.md",
+		"issues": "https://github.com/kuriousagency/layout-select/issues"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Kurious Agency",
+			"homepage": "https://kurious.agency"
+		}
+	],
+	"require": {
+		"craftcms/cms": "^3.0.0-RC1"
+	},
+	"autoload": {
+		"psr-4": {
+			"kuriousagency\\layoutselect\\": "src/"
+		}
+	},
+	"extra": {
+		"name": "Layout Select",
+		"handle": "layout-select",
+		"hasCpSettings": false,
+		"hasCpSection": false,
+		"changelogUrl": "https://raw.githubusercontent.com/kuriousagency/layout-select/master/CHANGELOG.md",
+		"class": "kuriousagency\\layoutselect\\LayoutSelect"
+	}
+}

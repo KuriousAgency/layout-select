@@ -1,0 +1,50 @@
+/**
+ * Layout Select plugin for Craft CMS
+ *
+ * LayoutSelectField Field CSS
+ *
+ * @author    Kurious Agency
+ * @copyright Copyright (c) 2020 Kurious Agency
+ * @link      https://kurious.agency
+ * @package   LayoutSelect
+ * @since     0.0.1
+ */
+
+.layoutselectmodal .body {
+	/* display: flex; */
+	/* flex-wrap: wrap; */
+	position: relative;
+	height: 100%;
+}
+.layoutselectmodal .body.selection .element.active {
+	background: #ecedef;
+}
+.layoutselectmodal .body.selection .element:not(.active) {
+	opacity: 0.5;
+}
+.layoutselectmodal .element {
+	width: 300px;
+	padding: 1rem;
+	position: relative;
+	display: inline-block;
+}
+/* .layoutselectmodal .element::before {
+	padding-top: 56.25%;
+	display: block;
+	content: '';
+} */
+.layoutselectmodal .element img {
+	width: 100%;
+	/* position: absolute; */
+	top: 0;
+}
+.layoutselectmodal .footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+}
+.element.layout:not(.hasthumb) {
+	padding: 0;
+}

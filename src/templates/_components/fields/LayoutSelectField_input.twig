@@ -1,0 +1,106 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Layout Select plugin for Craft CMS 3.x
+ *
+ * LayoutSelectField Field Input
+ *
+ * @author    Kurious Agency
+ * @copyright Copyright (c) 2020 Kurious Agency
+ * @link      https://kurious.agency
+ * @package   LayoutSelect
+ * @since     0.0.1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% set config = {
+	name: name
+} %}
+
+{# {{ dump(field.options) }} #}
+{% set ids = [] %}
+
+{% for option in field.options %}
+	{% set ids = ids|merge([option[0]|replace('{asset:')|replace('}')]) %}
+{% endfor %}
+
+{# {{ dump(ids) }} #}
+{% set elements = null %}
+
+{% set layouts = craft.assets.id(ids).fixedOrder().all() %}
+{% set selectedElement = null %}
+{% set assets = [] %}
+{% for asset in layouts %}
+	{% set assets = assets|merge([{id:asset.id, data:field.options[loop.index0][1]|json_decode, url:craft.app.assets.getThumbUrl(asset, 300, 300)}]) %}
+	{% if value and value == asset.id %}
+		{% set elements = [assets[loop.index0]] %}
+	{% endif %}
+{% endfor %}
+{# {{dump(elements)}} #}
+{# {% set sources = null %} #}
+
+
+{% set jsClass = 'Kurious.LayoutSelectInput' %}
+
+{% if elements is not defined %}
+	{% set elements = [assets[0]] %}
+{% endif %}
+
+{% set selector %}
+
+{# {% if name is defined and name %}
+    {{ hiddenInput(name, '') }}
+{% endif -%} #}
+
+{% set elements = (elements is defined and elements ? elements : []) -%}
+{% set jsClass = (jsClass is defined and jsClass ? jsClass : 'Craft.BaseElementSelectInput') -%}
+{% set sources = (sources is defined and sources ? sources : null) -%}
+{% set criteria = (criteria is defined and criteria ? criteria : null) -%}
+{% set sourceElementId = (sourceElementId is defined and sourceElementId ? sourceElementId : null) -%}
+{% set storageKey = (storageKey is defined and storageKey ? storageKey : null) -%}
+{% set viewMode = (viewMode is defined ? viewMode : 'large') %}
+{% set sortable = (sortable is defined ? sortable : true) %}
+{% set prevalidate = prevalidate ?? false %}
+{% set fieldId = (fieldId is defined ? fieldId : null) %}
+
+<div id="{{ id }}" class="elementselect"
+        {%- if block('attr') is defined %} {{ block('attr') }}{% endif %}>
+    <div class="elements">
+        {% for element in elements %}
+            <div class="element large layout" data-id="{{ element.id }}" tabindex="0" style="visibility: visible;">
+				<input type="hidden" name="{{ name }}" value="{{ element.id }}">
+				<img src="{{ element.url }}" alt="">
+			</div>
+        {% endfor %}
+    </div>
+
+    <div class="btn add icon dashed">{{ selectionLabel is defined ? selectionLabel : "Change"|t('app') }}</div>
+</div>
+
+{% set jsSettings = {
+    id: id|namespaceInputId,
+    name: name|namespaceInputName,
+    elementType: 'craft\\elements\\asset',
+    sources: sources,
+    criteria: criteria,
+    sourceElementId: sourceElementId,
+    viewMode: viewMode,
+    limit: null,
+    showSiteMenu: false,
+    modalStorageKey: storageKey,
+    fieldId: fieldId,
+    sortable: false,
+    prevalidate: prevalidate,
+	items: assets,
+	modalSettings: {selectedElementId: elements|length ? elements[0].id}
+} %}
+
+{% js %}
+    new {{ jsClass }}({{ jsSettings|json_encode|raw }});
+{% endjs %}
+
+{% endset %}
+
+{{ forms.field(config, selector) }}

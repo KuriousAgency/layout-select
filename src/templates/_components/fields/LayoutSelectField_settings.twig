@@ -1,0 +1,34 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Layout Select plugin for Craft CMS
+ *
+ * LayoutSelectField Field Settings
+ *
+ * @author    Kurious Agency
+ * @copyright Copyright (c) 2020 Kurious Agency
+ * @link      https://kurious.agency
+ * @package   LayoutSelect
+ * @since     0.0.1
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("kuriousagency\\layoutselect\\assetbundles\\layoutselectfield\\LayoutSelectFieldAsset") %}
+
+{{ forms.editableTable({
+	id: 'layout-select',
+	name: 'options',
+	cols: [{type:'singleline', heading:'Preview Thumbnail'}, {type:'multiline', heading:'Settings'}],
+	rows: field.options,
+}) }}
+
+{# {% include "_components/fieldtypes/Matrix/input" with {
+	name: 'options',
+	id: 'layout-select-options',
+	blocks: [],
+	blockTypes: [{handle:'layout', name:'Layout'}],
+	static: false,
+	staticBlocks: null
+} %} #}
